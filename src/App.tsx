@@ -19,20 +19,29 @@ class App extends Component<Props, State> {
   state: State = {
     refetchMemes: () => {
       axios
-        .get(`http://localhost:8762/meme-storage/leader-board`)
+        .get("http://10.44.13.27:8762/meme-storage/leader-board")
         .then(response => {
           this.setState({ memes: response.data });
-        });
+        })
+        .catch(e => console.log(e));
     },
     memes: []
   };
+
+  componentDidMount() {
+    this.state.refetchMemes();
+  }
 
   render() {
     return (
       <Router>
         <div className="App">
           <Header />
-          <Route exact path="/" component={MemeList} memes={this.state.memes} />
+          <Route
+            exact
+            path="/"
+            component={() => <MemeList memes={this.state.memes} />}
+          />
           <Route path="/leaderboard" component={Leaderboard} />
           <Route path="/create" component={CreateNewMeme} />
         </div>
