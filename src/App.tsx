@@ -12,7 +12,9 @@ interface Props {}
 
 interface State {
   refetchMemes: () => void;
+  orderMemes: () => void;
   memes: MemeModel[];
+  orderedMemes: MemeModel[];
 }
 
 class App extends Component<Props, State> {
@@ -22,10 +24,17 @@ class App extends Component<Props, State> {
         .get("http://10.44.13.27:8762/meme-storage/leader-board")
         .then(response => {
           this.setState({ memes: response.data });
+          this.state.orderMemes();
         })
         .catch(e => console.log(e));
     },
-    memes: []
+    orderMemes: () => {
+      let orderedMemes: MemeModel[] = [...this.state.memes];
+      orderedMemes.sort((a, b) => b.upVote - a.upVote);
+      this.setState({ orderedMemes: orderedMemes });
+    },
+    memes: [],
+    orderedMemes: []
   };
 
   componentDidMount() {
@@ -42,7 +51,10 @@ class App extends Component<Props, State> {
             path="/"
             component={() => <MemeList memes={this.state.memes} />}
           />
-          <Route path="/leaderboard" component={Leaderboard} />
+          <Route
+            path="/leaderboard"
+            component={() => <Leaderboard memes={this.state.orderedMemes} />}
+          />
           <Route path="/create" component={CreateNewMeme} />
         </div>
       </Router>

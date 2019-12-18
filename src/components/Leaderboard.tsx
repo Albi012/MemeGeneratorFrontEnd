@@ -1,13 +1,26 @@
 import React from "react";
+import MemeModel from "../models/MemeModel";
+import LeaderboardElement from "../components/LeaderboardElement";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
-interface Props {}
+interface Props {
+  memes: MemeModel[];
+}
 
-const Leaderboard: React.FC<Props> = () => {
-  return (
-    <div>
-      <h1>leaderboard</h1>
-    </div>
-  );
+const Leaderboard: React.FC<Props> = (props: Props) => {
+    return (
+        <Container>
+          {props.memes.map((meme: MemeModel, index: number) => (
+            <Row className="justify-content-md-center">
+              <Col md={6}>
+                <LeaderboardElement meme={meme} index={index} />
+              </Col>
+            </Row>
+          ))}
+        </Container>
+      );
 };
 
 export default Leaderboard;
