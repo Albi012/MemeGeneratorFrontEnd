@@ -1,11 +1,17 @@
 import React from "react";
+import MemeModel from "../models/MemeModel";
+import MemeCard from "./MemeCard";
 
-interface Props {}
+interface Props {
+  memes: MemeModel[];
+}
 
-const MemeList: React.FC<Props> = () => {
+const MemeList: React.FC<Props> = (props: Props) => {
   return (
     <div>
-      <h1>meme list</h1>
+      {props.memes.map((meme: MemeModel) => (
+        <MemeCard meme={meme} />
+      ))}
     </div>
   );
 };
