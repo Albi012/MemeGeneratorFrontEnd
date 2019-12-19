@@ -12,7 +12,7 @@ const TextCard: React.FC<Props> = props => {
   const passiveStyle = {};
 
   return (
-    <Card style={props.activeId != props.text.id ? activeStyle : passiveStyle}>
+    <Card style={props.activeId !== props.text.id ? passiveStyle : activeStyle}>
       <Card.Body>
         <Card.Text>{props.text.text0}</Card.Text>
         <Card.Text>{props.text.text1}</Card.Text>
