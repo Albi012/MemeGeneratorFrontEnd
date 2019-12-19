@@ -47,6 +47,13 @@ class CreateNewMeme extends Component<Props, State> {
     },
 
     sendMemeGenerator: () => {
+      this.setState({
+        selectedText: {
+          id: 0,
+          text0: "",
+          text1: ""
+        }
+      });
       axios({
         method: "post",
         url: "http://localhost:8762/image-flip",

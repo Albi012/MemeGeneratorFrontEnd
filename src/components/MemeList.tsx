@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 interface Props {
-  refetchMeme: () => void;
+  refetchMemes: () => void;
   memes: MemeModel[];
 }
 
@@ -16,7 +16,7 @@ const MemeList: React.FC<Props> = (props: Props) => {
       {props.memes.map((meme: MemeModel) => (
         <Row className="justify-content-md-center">
           <Col md={6}>
-            <MemeCard meme={meme}  refetchMeme={props.refetchMeme}/>
+            <MemeCard meme={meme}  refetchMemes={props.refetchMemes}/>
           </Col>
         </Row>
       ))}

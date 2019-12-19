@@ -7,8 +7,10 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
+import VoteButton from "./VoteButton";
 
 interface Props {
+  refetchMemes: () => void;
   meme: MemeModel;
   index: number;
 }
@@ -26,13 +28,9 @@ const LeaderboardElement: React.FC<Props> = props => {
               <Image src={props.meme.url} thumbnail />
             </Col>
             <Col className="align-center ">
-              <Button variant="success">
-                <FaArrowUp />({props.meme.upVote})
-              </Button>
+              <VoteButton refetchMemes={props.refetchMemes} meme={props.meme} voteType={"up-vote"}/>
               <hr />
-              <Button variant="danger">
-                <FaArrowDown />({props.meme.downVote})
-              </Button>
+              <VoteButton refetchMemes={props.refetchMemes} meme={props.meme} voteType={"down-vote"}/>
             </Col>
           </Row>
         </Container>
