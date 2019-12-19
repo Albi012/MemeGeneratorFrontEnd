@@ -21,7 +21,7 @@ class App extends Component<Props, State> {
   state: State = {
     refetchMemes: () => {
       axios
-        .get("http://10.44.13.27:8762/meme-storage/leader-board")
+        .get("http://localhost:8762/meme-storage/leader-board")
         .then(response => {
           this.setState({ memes: response.data });
           this.state.orderMemes();
@@ -55,7 +55,12 @@ class App extends Component<Props, State> {
             path="/leaderboard"
             component={() => <Leaderboard memes={this.state.orderedMemes} />}
           />
-          <Route path="/create" component={CreateNewMeme} />
+          <Route
+            path="/create"
+            component={() => (
+              <CreateNewMeme refetch={this.state.refetchMemes} />
+            )}
+          />
         </div>
       </Router>
     );

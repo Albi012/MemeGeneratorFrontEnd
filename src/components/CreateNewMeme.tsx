@@ -8,7 +8,12 @@ import TextCard from "../components/TextCard";
 import TemplateModel from "../models/TemplateModel";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
+import { Redirect } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
+interface Props {
+  refetch: () => void;
+}
 interface State {
   template: TemplateModel;
   texts: TextModel[];
@@ -17,9 +22,10 @@ interface State {
   refetchTexts: () => void;
   setSelectedText: (text: TextModel) => void;
   sendMemeGenerator: () => void;
+  redirect: boolean;
 }
 
-class CreateNewMeme extends Component<State> {
+class CreateNewMeme extends Component<Props, State> {
   state: State = {
     template: {
       template_id: 0,
@@ -31,7 +37,6 @@ class CreateNewMeme extends Component<State> {
     refetchTemplate: () => {
       axios.get("http://localhost:8762/image-generator").then(resp => {
         this.setState({ template: resp.data });
-        console.log(resp);
       });
     },
 
@@ -50,6 +55,9 @@ class CreateNewMeme extends Component<State> {
           text0: this.state.selectedText.text0,
           text1: this.state.selectedText.text1
         }
+      }).then(() => {
+        this.setState({ redirect: true });
+        this.props.refetch();
       });
     },
 
@@ -60,7 +68,8 @@ class CreateNewMeme extends Component<State> {
           this.setState({ texts: response.data });
         })
         .catch(e => console.log(e));
-    }
+    },
+    redirect: false
   };
 
   componentDidMount() {
@@ -69,6 +78,10 @@ class CreateNewMeme extends Component<State> {
   }
 
   render() {
+    const redirect = this.state.redirect;
+    if (redirect) {
+      return <Redirect to="/" />;
+    }
     return (
       <Container>
         <Row className="justify-content-md-center">
@@ -91,7 +104,12 @@ class CreateNewMeme extends Component<State> {
         </Row>
         <Row className="justify-content-md-center">
           <Col md={1}>
-            <Button onClick={() => this.state.sendMemeGenerator()}>Send</Button>
+            <Button
+              disabled={this.state.selectedText.id === 0}
+              onClick={() => this.state.sendMemeGenerator()}
+            >
+              Send
+            </Button>
           </Col>
         </Row>
       </Container>
