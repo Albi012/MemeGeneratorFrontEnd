@@ -18,8 +18,16 @@ interface State {
 
 class CreateNewMeme extends Component<State> {
   state: State = {
-    template: { templateId: 0, templateUrl: "" },
-    texts: [],
+    template: {
+      templateId: 0,
+      templateUrl:
+        "https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png"
+    },
+    texts: [
+      { text0: "dummy1", text1: "dummy1 again", id: 1 },
+      { text0: "dummy2", text1: "dummy2 again", id: 2 },
+      { text0: "dummy 3", text1: "dummy3 again", id: 3 }
+    ],
     selectedText: { text0: "", text1: "", id: 0 },
     refetchTemplate: () => {
       this.setState({
