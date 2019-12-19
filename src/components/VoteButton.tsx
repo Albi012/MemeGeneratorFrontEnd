@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 
 interface Props {
-    refetchMeme: () => void;
+    refetchMemes: () => void;
     meme: MemeModel;
     voteType: string;
 }
@@ -23,7 +23,7 @@ class VoteButton extends Component<Props, State> {
                 .get(`http://localhost:8762/meme-storage/${voteType}/${memeId}`)
                 .then(() => {
                     (voteType === "up-vote") ? this.props.meme.upVote += 1 : this.props.meme.downVote += 1;
-                    this.props.refetchMeme();
+                    this.props.refetchMemes();
                 })
                 .catch(e => console.log(e));
         }
