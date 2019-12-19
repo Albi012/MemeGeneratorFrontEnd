@@ -40,7 +40,7 @@ class App extends Component<Props, State> {
           <Route
             exact
             path="/"
-            component={() => <MemeList memes={this.state.memes} />}
+            component={() => <MemeList memes={this.state.memes}  refetchMeme={this.state.refetchMemes}/>}
           />
           <Route path="/leaderboard" component={Leaderboard} />
           <Route path="/create" component={CreateNewMeme} />
