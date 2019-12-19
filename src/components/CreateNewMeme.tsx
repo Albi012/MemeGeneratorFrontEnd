@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 import TextModel from "../models/TextModel";
 import TextCard from "../components/TextCard";
 import TemplateModel from "../models/TemplateModel";
@@ -15,6 +16,7 @@ interface State {
   refetchTemplate: () => void;
   refetchTexts: () => void;
   setSelectedText: (text: TextModel) => void;
+  sendMemeGenerator: () => void;
 }
 
 class CreateNewMeme extends Component<State> {
@@ -36,6 +38,18 @@ class CreateNewMeme extends Component<State> {
     setSelectedText: (text: TextModel) => {
       this.setState({
         selectedText: text
+      });
+    },
+
+    sendMemeGenerator: () => {
+      axios({
+        method: "post",
+        url: "http://localhost:8762/image-flip",
+        data: {
+          templateId: this.state.template.template_id,
+          text0: this.state.selectedText.text0,
+          text1: this.state.selectedText.text1
+        }
       });
     },
 
@@ -74,6 +88,11 @@ class CreateNewMeme extends Component<State> {
               />
             </Col>
           ))}
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col md={1}>
+            <Button onClick={() => this.state.sendMemeGenerator()}>Send</Button>
+          </Col>
         </Row>
       </Container>
     );
