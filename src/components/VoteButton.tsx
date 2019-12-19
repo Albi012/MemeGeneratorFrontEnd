@@ -34,7 +34,7 @@ class VoteButton extends Component<Props, State> {
             <Button onClick={() => {
                 this.state.vote(this.props.meme.id, this.props.voteType)
             }} variant={(this.props.voteType === "up-vote") ? "success" : "danger"}>
-                {(this.props.voteType) ? <FaArrowUp/> : <FaArrowDown/>}
+                {(this.props.voteType === "up-vote") ? <FaArrowUp/> : <FaArrowDown/>}
                 ({(this.props.voteType === "up-vote") ? this.props.meme.upVote : this.props.meme.downVote})
             </Button>
         )
