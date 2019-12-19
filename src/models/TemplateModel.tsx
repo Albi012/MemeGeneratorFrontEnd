@@ -1,5 +1,4 @@
 export default interface TemplateModel {
-    templateUrl: string;
-    templateId: number;
-  }
-  
+  url: string;
+  template_id: number;
+}

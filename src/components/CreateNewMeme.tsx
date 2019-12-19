@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
 import TextModel from "../models/TextModel";
 import TextCard from "../components/TextCard";
 import TemplateModel from "../models/TemplateModel";
 import axios from "axios";
+import Card from "react-bootstrap/Card";
 
 interface State {
   template: TemplateModel;
@@ -14,30 +14,34 @@ interface State {
   selectedText: TextModel;
   refetchTemplate: () => void;
   refetchTexts: () => void;
+  setSelectedText: (text: TextModel) => void;
 }
 
 class CreateNewMeme extends Component<State> {
   state: State = {
     template: {
-      templateId: 0,
-      templateUrl:
+      template_id: 0,
+      url:
         "https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png"
     },
-    texts: [
-      { text0: "dummy1", text1: "dummy1 again", id: 1 },
-      { text0: "dummy2", text1: "dummy2 again", id: 2 },
-      { text0: "dummy 3", text1: "dummy3 again", id: 3 }
-    ],
+    texts: [],
     selectedText: { text0: "", text1: "", id: 0 },
     refetchTemplate: () => {
-      this.setState({
-        templateUrl:
-          "https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png"
+      axios.get("http://localhost:8762/image-generator").then(resp => {
+        this.setState({ template: resp.data });
+        console.log(resp);
       });
     },
+
+    setSelectedText: (text: TextModel) => {
+      this.setState({
+        selectedText: text
+      });
+    },
+
     refetchTexts: () => {
       axios
-        .get("http://10.44.5.191:8762/text-generator/random-text")
+        .get("http://localhost:8762/text-generator/random-text")
         .then(response => {
           this.setState({ texts: response.data });
         })
@@ -47,20 +51,27 @@ class CreateNewMeme extends Component<State> {
 
   componentDidMount() {
     this.state.refetchTemplate();
+    this.state.refetchTexts();
   }
 
   render() {
     return (
       <Container>
-        <Row>
-          <Col>
-            <Image src={this.state.template.templateUrl} rounded />
+        <Row className="justify-content-md-center">
+          <Col md={6}>
+            <Card>
+              <Card.Img src={this.state.template.url} />
+            </Card>
           </Col>
         </Row>
         <Row>
           {this.state.texts.map((text: TextModel) => (
             <Col>
-              <TextCard activeId={this.state.selectedText.id} text={text} />
+              <TextCard
+                activeId={this.state.selectedText.id}
+                text={text}
+                selector={this.state.setSelectedText}
+              />
             </Col>
           ))}
         </Row>

@@ -5,14 +5,18 @@ import Card from "react-bootstrap/Card";
 interface Props {
   text: TextModel;
   activeId: number;
+  selector: (text: TextModel) => void;
 }
 
 const TextCard: React.FC<Props> = props => {
-  const activeStyle = {};
-  const passiveStyle = {};
+  const activeStyle = { border: "solid 2px green" };
+  const passiveStyle = { border: "solid 1px black" };
 
   return (
-    <Card style={props.activeId !== props.text.id ? passiveStyle : activeStyle}>
+    <Card
+      onClick={() => props.selector(props.text)}
+      style={props.activeId !== props.text.id ? passiveStyle : activeStyle}
+    >
       <Card.Body>
         <Card.Text>{props.text.text0}</Card.Text>
         <Card.Text>{props.text.text1}</Card.Text>
