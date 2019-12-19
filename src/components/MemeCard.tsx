@@ -1,8 +1,7 @@
 import React from "react";
 import MemeModel from "../models/MemeModel";
 import Card from "react-bootstrap/Card";
-import { FaArrowUp, FaArrowDown } from "react-icons/fa";
-import Button from "react-bootstrap/Button";
+import VoteButton from "./VoteButton";
 
 interface Props {
   meme: MemeModel;
@@ -13,14 +12,8 @@ const MemeCard: React.FC<Props> = props => {
     <Card>
       <Card.Img variant="top" src={props.meme.url} />
       <Card.Body>
-        <Button variant="success">
-          <FaArrowUp />
-          ({props.meme.upVote})
-        </Button>
-        <Button variant="danger">
-          <FaArrowDown />
-          ({props.meme.downVote})
-        </Button>
+        <VoteButton meme={props.meme} voteType={"up-vote"}/>
+        <VoteButton meme={props.meme} voteType={"down-vote"}/>
       </Card.Body>
     </Card>
   );

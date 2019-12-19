@@ -16,16 +16,16 @@ interface State {
 }
 
 class App extends Component<Props, State> {
+
   state: State = {
     refetchMemes: () => {
       axios
-        .get("http://10.44.13.27:8762/meme-storage/leader-board")
+        .get("http://localhost:8762/meme-storage/leader-board")
         .then(response => {
           this.setState({ memes: response.data });
         })
         .catch(e => console.log(e));
-    },
-    memes: []
+    }, memes: []
   };
 
   componentDidMount() {
